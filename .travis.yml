@@ -16,3 +16,10 @@ after_success:
   - docker build -t yuankunluo/fib-react-nginx ./nginx
   - docker build -t yuankunluo/fib-react-server ./server
   - docker build -t yuankunluo/fib-react-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # Push Images to docker hub
+  - docker push yuankunluo/fib-react-client
+  - docker push yuankunluo/fib-react-server
+  - docker push yuankunluo/fib-react-worker
+  - docker push yuankunluo/fib-react-nginx
