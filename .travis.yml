@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t yuankunluo/fib-react-multi-docker-test -f ./client/Dockerfile.dev ./client
+
+# Run test
+script:
+  - docker run -e CI=true yuankunluo/fib-react-multi-docker-test npm test -- --coverage
+
+# After test success then build the production 
+# images and push to DockerHub
+after_success:
+  - docker build -t yuankunluo/fib-react-client ./client
+  - docker build -t yuankunluo/fib-react-nginx ./nginx
+  - docker build -t yuankunluo/fib-react-server ./server
+  - docker build -t yuankunluo/fib-react-worker ./worker
